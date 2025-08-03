@@ -31,7 +31,7 @@ precmd() {
     PROMPT_TIME="%K{15}%F{241}[%*]%f%k"
     VENV_NAME=$([[ -n "$VIRTUAL_ENV" ]] && echo "(%F{magenta}$(basename "$VIRTUAL_ENV")%f)" || echo "")
     FULL_PATH=$([[ $(id -u) -eq 0 ]] && echo "%K{red}%F{white} %/ %f%k" || echo "%K{cyan} %F{blue}%~%f %k")
-    GIT_BRANCH=$([[ -f "$ZDOTFOLDER/prompt/git-status.zsh" ]] && git_prompt_segment || echo "")
+    GIT_BRANCH=$([[ -f "$ZDOTDIR/prompt/git-status.zsh" ]] && git_prompt_segment || echo "")
     PROMPT_END=$([[ $(id -u) -eq 0 ]] && echo "%F{red}#%f" || echo "%F{yellow}\$%f")
     PROMPT="${PROMPT_TIME}${VENV_NAME}${FULL_PATH}${GIT_BRANCH} ${PROMPT_END} "
     RPROMPT="${ROOT_TAG}"
@@ -79,8 +79,8 @@ function git_prompt_segment() {
 # ~/.config/zsh/zsh-prompt
 # Source this to wire up the dynamic prompt
 
-source "$ZDOTFOLDER/prompt/git-status.zsh"
-source "$ZDOTFOLDER/prompt/prompt.zsh"
+source "$ZDOTDIR/prompt/git-status.zsh"
+source "$ZDOTDIR/prompt/prompt.zsh"
 ```
 
 ---
@@ -116,10 +116,10 @@ zsh_add_file "zsh-prompt"
 
 ## 📌 Notes
 
-* Make sure your `ZDOTFOLDER` is exported (e.g., in `env.zsh`) before anything else:
+* Make sure your `ZDOTDIR` is exported (e.g., in `env.zsh`) before anything else:
 
   ```zsh
-  export ZDOTFOLDER="$HOME/.config/zsh"
+  export ZDOTDIR="$HOME/.config/zsh"
   ```
 * Colours assume support for 256-colour terminals (which most modern ones support).
 * `git rev-parse` is heavily used to prevent false positives outside a repo.

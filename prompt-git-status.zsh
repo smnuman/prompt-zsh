@@ -5,7 +5,7 @@ function git_prompt_segment() {
   if git rev-parse --is-inside-work-tree &>/dev/null; then
     # Branch name (handle detached)
     BRANCH_NAME=$(git symbolic-ref --short -q HEAD 2>/dev/null || echo "HEAD")
-    BRANCH_NAME=$([[ "$BRANCH_NAME" == "HEAD" ]] && echo "%F{magenta}🪂DETACHED%f" || echo "%F{cyan}${BRANCH_NAME}%f")
+    BRANCH_NAME=$([[ "$BRANCH_NAME" == "HEAD" ]] && echo "%F{magenta}🪂 DETACHED%f" || echo "%F{cyan}${BRANCH_NAME}%f")
 
     # Repo state
     if ! git rev-parse --verify HEAD >/dev/null 2>&1; then

@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 # 🌀 Set prompt dynamically each time
-precmd() {
+function prompt-setup {
     # 🔴 Root identifier
     ROOT_TAG=$([[ $(id -u) -eq 0 ]] && echo "%K{230}%F{red} %B[ROOT]%b %f%k" || echo "")
 
@@ -11,14 +11,17 @@ precmd() {
     VENV_NAME=$([[ -n "$VIRTUAL_ENV" ]] && echo "(%F{magenta}$(basename %"$VIRTUAL_ENV%")%f)" || echo "")
 
     # 📂 Full path for root (never ~ for 'root') or the user (using '~' for home)
-    FULL_PATH=$([[ $(id -u) -eq 0 ]] && echo "%K{red}%F{white} %/ %f%k" || echo "%K{cyan} %F{blue}%~%f %k") 
+    FULL_PATH=$([[ $(id -u) -eq 0 ]] && echo "%K{red}%F{white} %/ %f%k" || echo "%K{cyan} %F{blue}%~%f %k")
 
     # 🌱 Git segment using 'prompt-git-status.zsh' in ~/.config/zsh/prompt/
-    GIT_BRANCH=$([[ -f "$ZDOTFOLDER/prompt/prompt-git-status.zsh" ]] && { "git_prompt_segment" } || echo "")
+    # vcs_info 2>/dev/null
+    # GIT_BRANCH="${vcs_info_msg_0_:-}"
+    GIT_BRANCH=$([[ -f "$ZDOTDIR/prompt/prompt-git-status.zsh" ]] && { "git_prompt_segment" } || echo "")
 
-    PROMPT_END=$([[ $(id -u) -eq 0 ]] && echo "%F{red}#%f" || echo "%F{yellow}\$%f")
+    PROMPT_END=$([[ $(id -u) -eq 0 ]] && echo "%F{red}%#%f" || echo "%F{yellow}\$%f")
 
     # 🎯 Build final prompt string
     PROMPT="${PROMPT_TIME}${VENV_NAME}${FULL_PATH}${GIT_BRANCH} ${PROMPT_END} "
     RPROMPT="${ROOT_TAG}"
 }
+add-zsh-hook precmd prompt-setup
